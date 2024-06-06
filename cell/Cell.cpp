@@ -131,11 +131,32 @@ Cell* Cell::GetNeighbor(Direction dir) const
     // If the cell is placed at the border of the map and the direction is outside the map, return nullptr.
     // Else return the neighbor cell.
 
+    int neighborRow = row;
+    int neighborCol = col;
 
+    switch(dir) {
+        case Direction::UP:
+            neighborRow--;
+            break;
+        case Direction::DOWN:
+            neighborRow++;
+            break;
+        case Direction::RIGHT:
+            neighborCol++;
+            break;
+        case Direction::LEFT:
+            neighborCol--;
+            break;
+    }
 
+    int rowSize = parent->GetRowsize();
+    int colSize = parent->GetColsize();
 
-
-
+    if((0 <= neighborRow) && (neighborRow < rowSize) && (0 <= neighborCol) && (neighborCol < colSize)) {
+        return parent->GetCell(neighborRow, neighborCol);
+    } else {
+        return nullptr;
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
