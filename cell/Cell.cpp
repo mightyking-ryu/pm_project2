@@ -85,7 +85,11 @@ AttrType Cell::GetAttr() const
     // Implement Cell::GetAttr.
     // Default attr is NORMAL, but if this cell has an object, then OR(|) with the object's attr.
 
-
+    if(obj != nullptr) {
+        return Terminal::Attr::NORMAL | obj->GetAttr();
+    } else {
+        return Terminal::Attr::NORMAL;
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -96,7 +100,11 @@ ColorPair Cell::GetColorPair() const
     // Implement Cell::GetColorPair.
     // Default ColorPair is NORMAL, but if this->object is a player, then return PLAYER_NORMAL.
 
-
+    if((obj != nullptr) && (obj->GetType() == ObjectType::PLAYER)) {
+        return ColorPair::PLAYER_NORMAL;
+    } else {
+        return ColorPair::NORMAL;
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -107,7 +115,11 @@ char Cell::GetIcon() const
     // Implement Cell::GetIcon.
     // Default icon is ' ', but if this cell has an object, then return the object's icon.
 
-
+    if(obj != nullptr) {
+        return obj->GetIcon();
+    } else {
+        return ' ';
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
