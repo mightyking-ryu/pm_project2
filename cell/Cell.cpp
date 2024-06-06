@@ -28,7 +28,23 @@ void Cell::InitObject(const std::string& objType)
     // 2. Check objType and make corresponding object.
     // 3. push_back the object to the corresponding map->objects[].
 
+    delete obj;
 
+    if(objType.compare("Box") == 0) {
+
+        obj = new Box(this);
+        
+    } else if (objType.compare("Player") == 0) {
+
+        obj = new Player(this);
+
+    } else if (objType.compare("Ghost") == 0) {
+
+        obj = new Ghost(this);
+
+    }
+
+    parent->objects.find(obj->GetType())->second.push_back(obj);
 
     //////////   TODO END   ////////////////////////////////////
 }
