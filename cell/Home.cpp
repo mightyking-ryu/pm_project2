@@ -16,7 +16,22 @@ AttrType Home::GetAttr() const {
 }
 
 ColorPair Home::GetColorPair() const {
-
+    switch(this->Check()) {
+        case HomeCheckResult::EMPTY:
+            return ColorPair::NORMAL;
+        case HomeCheckResult::CORRECT:
+            if(obj->GetType() == ObjectType::PLAYER) {
+                return ColorPair::PLAYER_CORRECT;
+            } else {
+                return ColorPair::CORRECT;
+            }
+        case HomeCheckResult::WRONG:
+            if(obj->GetType() == ObjectType::PLAYER) {
+                return ColorPair::PLAYER_WRONG;
+            } else {
+                return ColorPair::WRONG;
+            }
+    }
 }
 
 char Home::GetIcon() const {
