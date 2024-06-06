@@ -7,6 +7,8 @@
 #include "item/Operator.hpp"
 #include "item/Equal.hpp"
 
+#include <stdexcept>
+
 CellObjBase::CellObjBase(Cell* cell) : parent(cell)
 {
 }
@@ -50,9 +52,22 @@ void CellObjBase::InitItem(char itemIcon)
     // ‘@’: Do nothing (this indicates an empty player).
     // else: Don’t care (throwing runtime_error is best).
 
+    delete this->item;
 
-
-
+    if(itemIcon == '+') {
+        this->item = new Operator(this, OpType::ADD);
+    } else if(itemIcon == '-') {
+        this->item = new Operator(this, OpType::SUB);
+    } else if(itemIcon == '*') {
+        this->item = new Operator(this, OpType::MUL);
+    } else if(itemIcon == '=') {
+        this->item = new Equal(this);
+        this->parent->parent->equals.push_back((Equal*)this->item);
+    } else if(('0' <= itemIcon) && (itemIcon <= '9')) {
+        this->item = new Number(this, itemIcon - '0');
+    } else {
+        std::runtime_error("Item initialize error");
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
