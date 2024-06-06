@@ -28,7 +28,23 @@ char Home::GetIcon() const {
 }
 
 HomeCheckResult Home::Check() const {
-
+    if(obj == nullptr) {
+        return HomeCheckResult::EMPTY;
+    } else {
+        if(obj->GetItem() == nullptr) {
+            return HomeCheckResult::WRONG;
+        } else {
+            if(obj->GetItem()->GetType() != ItemType::NUMBER) {
+                return HomeCheckResult::WRONG;
+            } else {
+                if((obj->GetItem()->GetIcon()-'0') == targetNumber) {
+                    return HomeCheckResult::CORRECT;
+                } else {
+                    return HomeCheckResult::WRONG;
+                }
+            }
+        }
+    }
 }
 
 //////////   TODO END   ////////////////////////////////////
