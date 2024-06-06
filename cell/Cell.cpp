@@ -33,7 +33,7 @@ void Cell::InitObject(const std::string& objType)
     if(objType.compare("Box") == 0) {
 
         obj = new Box(this);
-        
+
     } else if (objType.compare("Player") == 0) {
 
         obj = new Player(this);
@@ -57,7 +57,19 @@ void Cell::SwapObject(Cell* other)
     // 2. If other->obj exists: change parent of other->obj.
     // 3. Swap this->obj and other->obj.
 
+    if(this->obj != nullptr) {
 
+        this->obj->parent = other;
+
+    }
+
+    if(other->obj != nullptr) {
+
+        other->obj->parent = this;
+
+    }
+
+    std::swap(this->obj, other->obj);
 
     //////////   TODO END   ////////////////////////////////////
 }
