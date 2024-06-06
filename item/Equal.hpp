@@ -9,9 +9,7 @@ class Equal : public ItemBase
 {
 public:
 
-    Cell* parentCell;
-
-    Equal(CellObjBase* obj, Cell* parentCell);
+    Equal(CellObjBase* obj);
 
     ItemType GetType() const;
     char GetIcon() const;

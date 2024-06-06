@@ -4,7 +4,7 @@
 #include "cell/Cell.hpp"
 #include "item/Equal.hpp"
 
-Equal::Equal(CellObjBase* obj, Cell* parentCell) : ItemBase(obj), parentCell(obj->parent)
+Equal::Equal(CellObjBase* obj) : ItemBase(obj)
 {
 }
 
@@ -18,7 +18,7 @@ char Equal::GetIcon() const {
 
 std::string Equal::GetExpression(Direction dir) const {
     std::string expression = "";
-    Cell* currentCell = this->parentCell;
+    Cell* currentCell = this->parent->parent;
     while(true) {
         Cell* nextCell = currentCell->GetNeighbor(dir);
         if(nextCell == nullptr) {
