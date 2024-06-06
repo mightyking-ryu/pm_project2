@@ -15,26 +15,7 @@ public:
     char GetIcon() const;
 
     std::string GetExpression(Direction dir) const;
-    
+
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //////////   TODO END   ////////////////////////////////////
