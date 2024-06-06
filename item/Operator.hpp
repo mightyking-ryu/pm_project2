@@ -16,9 +16,11 @@ public:
     // You don't have to override them if you want to keep using the ItemBase functions.
 
     // Implement Operator::GetType that returns OPERATOR.
+    ItemType GetType() const;
 
     // Implement Operator::GetIcon.
     // Return one of the character '+', '-', '*' that matches this->op.
+    char GetIcon() const;
 
     //////////   TODO END   ////////////////////////////////////
 };
