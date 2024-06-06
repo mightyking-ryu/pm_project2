@@ -32,10 +32,22 @@ bool CellObjBase::TryMove(Direction dir)
     //    swap between the neighbor and return true
     // 5. If any one of 2 to 4 is false, then return false
 
+    Cell* neighbor = this->parent->GetNeighbor(dir);
 
-
-
-
+    if(neighbor == nullptr) {
+        return false;
+    } else {
+        if(neighbor->cellType == CellType::WALL) {
+            return false;
+        } else {
+            if(neighbor->GetObject() == nullptr) {
+                this->parent->SwapObject(neighbor);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
