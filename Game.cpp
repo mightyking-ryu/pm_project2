@@ -189,8 +189,18 @@ void Game::AskExit()
     // Press ‘Q’ again to quit the game.
     // Press ‘Z’ to resume the game and clear the terminal message.
 
+    bool exitingState = false;
+    while(!exitingState) {
+        Command cmd = Terminal::GetCommand();
+        if(cmd == Command::EXIT) {
+            this->gameState = GameState::GAMEOVER;
+            exitingState = true;
+        } else if(cmd == Command::UNDO) {
+            exitingState = true;
+        }
+    }
 
-
+    Terminal::ClearMessage();
 
     //////////   TODO END   ////////////////////////////////////
 }
