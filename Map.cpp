@@ -43,6 +43,8 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
     // 2. Initialize each object and its item.
 
     for(int i = 0; i < rowsize; i++) {
+        std::vector<Cell*> v;
+
         for(int j = 0; j < colsize; j++) {
             char c;
             Cell* newCell;
@@ -57,9 +59,14 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
                 newCell = new Home(this, i, j, c-'0');
                 this->homes.push_back(newCell);
             }
+
+            v.push_back(newCell);
         }
         ist.ignore();
+
+        this->cells.push_back(v);
     }
+    
     int numberOfObjects;
     ist >> numberOfObjects;
     ist.ignore();
