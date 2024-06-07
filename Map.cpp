@@ -44,12 +44,10 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
 
     for(int i = 0; i < rowsize; i++) {
         std::vector<Cell*> v;
-
+        std::getline(ist, line);
         for(int j = 0; j < colsize; j++) {
-            char c;
+            char c = line[j];
             Cell* newCell;
-
-            ist >> c;
 
             if(c == ' ') {
                 newCell = new Cell(this, i, j);
@@ -61,28 +59,26 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
             } else {
                 throw std::runtime_error("Map initialize error");
             }
-
             v.push_back(newCell);
         }
-        ist.ignore();
 
-        this->cells.push_back(v);
+        this->cells[i] = v;
     }
-    
+
     int numberOfObjects;
     ist >> numberOfObjects;
     ist.ignore();
 
     for(int i = 0; i < numberOfObjects; i++) {
-        std::string objType;
+        std::string objType;        
         char icon;
         int objRow;
         int objCol;
+
         ist >> objType >> icon >> objRow >> objCol;
         ist.ignore();
 
         Cell* targetCell = this->GetCell(objRow, objCol);
-
         targetCell->InitObject(objType);
         targetCell->GetObject()->InitItem(icon);
     }
