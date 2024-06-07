@@ -108,8 +108,16 @@ bool Map::IsCleared() const
     //////////     TODO     ////////////////////////////////////
     // Check if every home has the correct number.
 
-
-
+    bool isCleared = true;
+    for(Cell* homeCell : this->homes) {
+        if(((Home*) homeCell)->Check() == HomeCheckResult::CORRECT) {
+            continue;
+        } else {
+            isCleared = false;
+            break;
+        }
+    }
+    return isCleared;
     //////////   TODO END   ////////////////////////////////////
 }
 
