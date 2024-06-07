@@ -1,6 +1,7 @@
 #include "Map.hpp"
 
 #include <istream>
+#include <sstream>
 #include "utils/Terminal.hpp"
 
 #include "cell/Cell.hpp"
@@ -41,10 +42,41 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
     // 1. Read cell map and construct each cell.
     // 2. Initialize each object and its item.
 
+    for(int i = 0; i < rowsize; i++) {
+        for(int j = 0; j < colsize; j++) {
+            char c;
+            Cell* newCell;
 
+            ist >> c;
 
+            if(c == ' ') {
+                newCell = new Cell(this, i, j);
+            } else if(c == '#') {
+                newCell = new Wall(this, i, j);
+            } else if(('0' <= c) && (c <= '9')) {
+                newCell = new Home(this, i, j, c-'0');
+                this->homes.push_back(newCell);
+            }
+        }
+        ist.ignore();
+    }
+    int numberOfObjects;
+    ist >> numberOfObjects;
+    ist.ignore();
 
+    for(int i = 0; i < numberOfObjects; i++) {
+        std::string objType;
+        char icon;
+        int objRow;
+        int objCol;
+        ist >> objType >> icon >> objRow >> objCol;
+        ist.ignore();
 
+        Cell* targetCell = this->GetCell(objRow, objCol);
+
+        targetCell->InitObject(objType);
+        targetCell->GetObject()->InitItem(icon);
+    }
 
     //////////   TODO END   ////////////////////////////////////
     this->initialized = true;
