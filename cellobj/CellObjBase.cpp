@@ -78,7 +78,7 @@ void CellObjBase::InitItem(char itemIcon)
     } else if(('0' <= itemIcon) && (itemIcon <= '9')) {
         this->item = new Number(this, itemIcon - '0');
     } else {
-        std::runtime_error("Item initialize error");
+        throw std::runtime_error("Item initialize error");
     }
 
     //////////   TODO END   ////////////////////////////////////

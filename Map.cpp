@@ -58,6 +58,8 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
             } else if(('0' <= c) && (c <= '9')) {
                 newCell = new Home(this, i, j, c-'0');
                 this->homes.push_back(newCell);
+            } else {
+                throw std::runtime_error("Map initialize error");
             }
 
             v.push_back(newCell);
