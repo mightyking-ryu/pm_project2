@@ -2,6 +2,7 @@
 
 #include <string>
 #include "utils/Terminal.hpp"
+#include <stdexcept>
 
 #include "Map.hpp"
 #include "cellobj/Box.hpp"
@@ -41,6 +42,10 @@ void Cell::InitObject(const std::string& objType)
     } else if (objType.compare("Ghost") == 0) {
 
         obj = new Ghost(this);
+
+    } else {
+
+        throw std::runtime_error("Cell initobject error");
 
     }
 
