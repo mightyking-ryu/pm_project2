@@ -21,6 +21,7 @@ public:
 
     void InitObject(const std::string& item);
     CellObjBase* GetObject() const { return this->obj; }
+    void SetObject(CellObjBase* newObj) { this->obj = newObj; }
     void SwapObject(Cell* other);
 
     void Print() const;

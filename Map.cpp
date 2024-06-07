@@ -23,6 +23,15 @@ Map::~Map()
     //////////     TODO     ////////////////////////////////////
     // Modify destructor if you needed.
 
+    int rowSize = this->GetRowsize();
+    int colSize = this->GetColsize();
+
+    for(int i = 0; i < rowSize; i++) {
+        for(int j = 0; j < colSize; j++) {
+            delete this->cells[i][j];
+        }
+    }
+
     //////////   TODO END   ////////////////////////////////////
 }
 

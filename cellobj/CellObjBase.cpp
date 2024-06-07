@@ -18,6 +18,9 @@ CellObjBase::~CellObjBase()
     //////////     TODO     ////////////////////////////////////
     // Modify destructor if you needed.
 
+    this->parent->SetObject(nullptr);
+    delete item;
+
     //////////   TODO END   ////////////////////////////////////
 }
 
