@@ -25,6 +25,8 @@ Game::~Game()
     //////////     TODO     ////////////////////////////////////
     // Modify destructor if you needed.
 
+    delete this->map;
+
     //////////   TODO END   ////////////////////////////////////
 }
 
@@ -170,8 +172,31 @@ void Game::StartSolve(std::string filename)
     // If you press ‘Q’, then the solving state ends.
     // When the solving state ends, clear the terminal message.
 
-
-
+    int solutionSize = line.length();
+    for(int i = 0; i < solutionSize; i++) {
+        Command cmd = Terminal::GetCommand();
+        if(cmd == Command::EXIT) {
+            break;
+        } else {
+            switch(line[i]) {
+                case 'W':
+                    this->Move(Direction::UP);
+                    break;
+                case 'A':
+                    this->Move(Direction::LEFT);
+                    break;
+                case 'S':
+                    this->Move(Direction::DOWN);
+                    break;
+                case 'D':
+                    this->Move(Direction::RIGHT);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    Terminal::ClearMessage();
 
     //////////   TODO END   ////////////////////////////////////
 }
