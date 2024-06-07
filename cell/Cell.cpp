@@ -51,7 +51,7 @@ void Cell::InitObject(const std::string& objType)
 
     }
 
-    parent->objects.find(obj->GetType())->second.push_back(obj);
+    parent->objects[obj->GetType()].push_back(obj);
 
     //////////   TODO END   ////////////////////////////////////
 }

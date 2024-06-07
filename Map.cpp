@@ -157,7 +157,11 @@ void Map::RemoveGhosts()
     //////////     TODO     ////////////////////////////////////
     // Remove every ghosts and clear this->objects[GHOST].
 
+    for(CellObjBase* ghost : this->objects[ObjectType::GHOST]) {
+        delete ghost;
+    }
 
+    this->objects[ObjectType::GHOST].clear();
 
     //////////   TODO END   ////////////////////////////////////    
 }
