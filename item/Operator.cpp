@@ -19,6 +19,8 @@ char Operator::GetIcon() const {
             return '-';
         case OpType::MUL:
             return '*';
+        default:
+            throw std::runtime_error("Operator geticon error");
     }
 }
 

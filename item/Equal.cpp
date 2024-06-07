@@ -1,6 +1,6 @@
 //////////     TODO     ////////////////////////////////////
 // Implement the methods of your Equal class
-#pragma once
+
 #include "cell/Cell.hpp"
 #include "item/Equal.hpp"
 

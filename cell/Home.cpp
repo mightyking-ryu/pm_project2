@@ -2,6 +2,7 @@
 // Implement the methods of your Home class
 
 #include "cell/Home.hpp"
+#include <stdexcept>
 
 Home::Home(Map* map, int row, int col, int targetNumber) : Cell(map, row, col), targetNumber(targetNumber) {
     this->cellType = CellType::HOME;
@@ -31,6 +32,8 @@ ColorPair Home::GetColorPair() const {
             } else {
                 return ColorPair::WRONG;
             }
+        default:
+            throw std::runtime_error("Home getcolorpair error");
     }
 }
 
