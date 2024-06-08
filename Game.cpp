@@ -242,8 +242,47 @@ void Game::Move(Direction dir)
     // 5. Print the map.
     // 6. Push current map state to undo stack.
 
+    this->map->RemoveGhosts();
 
+    // Sort player vector
+    switch(dir) {
+        case Direction::UP:
+            sort(this->map->objects[ObjectType::PLAYER].begin(), this->map->objects[ObjectType::PLAYER].end(), [](CellObjBase* obj1, CellObjBase* obj2) {
+                return obj1->parent->row < obj2->parent->row;
+            });
+            break;
+        case Direction::LEFT:
+            sort(this->map->objects[ObjectType::PLAYER].begin(), this->map->objects[ObjectType::PLAYER].end(), [](CellObjBase* obj1, CellObjBase* obj2) {
+                return obj1->parent->col < obj2->parent->col;
+            });
+            break;
+        case Direction::DOWN:
+            sort(this->map->objects[ObjectType::PLAYER].begin(), this->map->objects[ObjectType::PLAYER].end(), [](CellObjBase* obj1, CellObjBase* obj2) {
+                return obj1->parent->row > obj2->parent->row;
+            });
+            break;
+        case Direction::RIGHT:
+            sort(this->map->objects[ObjectType::PLAYER].begin(), this->map->objects[ObjectType::PLAYER].end(), [](CellObjBase* obj1, CellObjBase* obj2) {
+                return obj1->parent->col > obj2->parent->col;
+            });
+            break;
+        default:
+            throw std::runtime_error("Move direction error");
+    }
 
+    // Try push and move
+    for(CellObjBase* playerObj : this->map->objects[ObjectType::PLAYER]) {
+        ((Player*) playerObj)->TryPush(dir);
+        playerObj->TryMove(dir);
+    }
+
+    this->map->SpawnGhosts();
+    if(this->map->IsCleared()) {
+        this->gameState = GameState::CLEARED;
+    }
+    this->map->PrintAll();
+
+    // undo stack
 
     //////////   TODO END   ////////////////////////////////////
 }
