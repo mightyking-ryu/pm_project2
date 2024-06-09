@@ -217,9 +217,81 @@ void Map::SpawnGhosts()
     // Sort this->equals to match spawning order.
     // For every equal, evaluate left/upper expression, get result string, and spawn ghosts.
 
+    sort(this->equals.begin(), this->equals.end(), [](Equal* equal1, Equal* equal2) {
+        if(equal1->parent->parent->col == equal2->parent->parent->col) {
+            if(equal1->parent->parent->row < equal2->parent->parent->row) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (equal1->parent->parent->col < equal2->parent->parent->col) {
+            return true;
+        } else {
+            return false;
+        }
+    });
 
-
-
+    for(Equal* equal : this->equals) {
+        Cell* parentCell = equal->parent->parent;
+        std::string expression;
+        std::string result;
+        // Left
+        expression = equal->GetExpression(Direction::LEFT);
+        if(validate(expression)) {
+            result = calculate(expression);
+            Cell* currentCell = parentCell;
+            for(int i = 0; i < result.length(); i++) {
+                currentCell = currentCell->GetNeighbor(Direction::RIGHT);
+                char icon = result[i];
+                if(currentCell == nullptr) {
+                    break;
+                } else {
+                    if(currentCell->GetObject() == nullptr) {
+                        currentCell->InitObject("Ghost");
+                        currentCell->GetObject()->InitItem(icon);
+                    } else {
+                        if(currentCell->GetObject()->GetType() == ObjectType::GHOST) {
+                            CellObjBase* existingGhost = currentCell->GetObject();
+                            if(existingGhost->GetIcon() < icon) {
+                                this->objects[ObjectType::GHOST].erase(remove(this->objects[ObjectType::GHOST].begin(), this->objects[ObjectType::GHOST].end(), existingGhost), this->objects[ObjectType::GHOST].end());
+                                delete existingGhost;
+                                currentCell->InitObject("Ghost");
+                                currentCell->GetObject()->InitItem(icon);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Up
+        expression = equal->GetExpression(Direction::UP);
+        if(validate(expression)) {
+            result = calculate(expression);
+            Cell* currentCell = parentCell;
+            for(int i = 0; i < result.length(); i++) {
+                currentCell = currentCell->GetNeighbor(Direction::DOWN);
+                char icon = result[i];
+                if(currentCell == nullptr) {
+                    break;
+                } else {
+                    if(currentCell->GetObject() == nullptr) {
+                        currentCell->InitObject("Ghost");
+                        currentCell->GetObject()->InitItem(icon);
+                    } else {
+                        if(currentCell->GetObject()->GetType() == ObjectType::GHOST) {
+                            CellObjBase* existingGhost = currentCell->GetObject();
+                            if(existingGhost->GetIcon() < icon) {
+                                this->objects[ObjectType::GHOST].erase(remove(this->objects[ObjectType::GHOST].begin(), this->objects[ObjectType::GHOST].end(), existingGhost), this->objects[ObjectType::GHOST].end());
+                                delete existingGhost;
+                                currentCell->InitObject("Ghost");
+                                currentCell->GetObject()->InitItem(icon);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
