@@ -3,6 +3,7 @@
 #include <istream>
 #include <sstream>
 #include "utils/Terminal.hpp"
+#include <algorithm>
 
 #include "cell/Cell.hpp"
 #include "cell/Home.hpp"
@@ -135,6 +136,36 @@ bool Map::IsCleared() const
     //////////   TODO END   ////////////////////////////////////
 }
 
+// Validate expression
+// return true / false
+bool validate(std::string expression) {
+
+    int len = expression.length();
+
+    if(len < 1) {
+        return false;
+    }
+
+    if(expression[0] == '*') {
+        return false;
+    }
+
+    for(int i = 1; i < len-1; i++) {
+        char current = expression[i];
+        char previous = expression[i-1];
+        if((current == '+') || (current == '-') || (current == '*')) {
+            if((previous == '+') || (previous == '-') || (previous == '*')) {
+                return false;
+            }
+        }
+    }
+
+    if((expression[len-1] == '+') || (expression[len-1] == '-') || (expression[len-1] == '*')) {
+        return false;
+    }
+
+    return true;
+}
 
 /// @brief Spawn every ghosts with the correct order.
 void Map::SpawnGhosts()
