@@ -146,6 +146,7 @@ void Game::Load(std::string filename)
     //////////     TODO     ////////////////////////////////////
     // Add undo-related logic if you needed.
 
+    this->mapStack.clear();
     SaveMap();
 
     //////////   TODO END   ////////////////////////////////////
