@@ -177,7 +177,7 @@ std::string calculate(std::string expression) {
     std::string elem = "";
     elem.push_back(expression[0]);
 
-    for(int i = 1; i < expression.length(); i++) {
+    for(int i = 1; i < (int) expression.length(); i++) {
         char current = expression[i];
         if((current == '+') || (current == '-') || (current == '*')) {
             num.push_back(std::stoi(elem));
@@ -191,7 +191,7 @@ std::string calculate(std::string expression) {
 
     int result = num[0];
 
-    for(int i = 0; i < op.size(); i++) {
+    for(int i = 0; i < (int) op.size(); i++) {
         switch(op[i]) {
             case '+':
                 result += num[i+1];
@@ -240,7 +240,7 @@ void Map::SpawnGhosts()
         if(validate(expression)) {
             result = calculate(expression);
             Cell* currentCell = parentCell;
-            for(int i = 0; i < result.length(); i++) {
+            for(int i = 0; i < (int) result.length(); i++) {
                 currentCell = currentCell->GetNeighbor(Direction::RIGHT);
                 char icon = result[i];
                 if(currentCell == nullptr) {
@@ -268,7 +268,7 @@ void Map::SpawnGhosts()
         if(validate(expression)) {
             result = calculate(expression);
             Cell* currentCell = parentCell;
-            for(int i = 0; i < result.length(); i++) {
+            for(int i = 0; i < (int) result.length(); i++) {
                 currentCell = currentCell->GetNeighbor(Direction::DOWN);
                 char icon = result[i];
                 if(currentCell == nullptr) {
