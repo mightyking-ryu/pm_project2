@@ -146,6 +146,8 @@ void Game::Load(std::string filename)
     //////////     TODO     ////////////////////////////////////
     // Add undo-related logic if you needed.
 
+    SaveMap();
+
     //////////   TODO END   ////////////////////////////////////
 }
 
@@ -282,7 +284,8 @@ void Game::Move(Direction dir)
     }
     this->map->PrintAll();
 
-    // undo stack
+    // Add current map state to mapStack
+    SaveMap();
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -299,5 +302,50 @@ void Game::Undo()
     // 5. Check if the game’s clear condition is met, and change the game state.
     // 6. Print the map.
 
+    if(this->mapStack.size() <= 1) {
+        return;
+    }
+
+    this->map->RemoveGhosts();
+
+    this->mapStack.pop_back();
+
+    for(CellObjBase* box : this->map->objects[ObjectType::BOX]) {
+        delete box;
+    }
+    this->map->objects[ObjectType::BOX].clear();
+
+    for(CellObjBase* player : this->map->objects[ObjectType::PLAYER]) {
+        delete player;
+    }
+    this->map->objects[ObjectType::PLAYER].clear();
+
+    this->map->equals.clear();
+
+    for(auto objInfo : this->mapStack.back()) {
+        Cell* targetCell = this->map->GetCell(std::get<2>(objInfo), std::get<3>(objInfo));
+        targetCell->InitObject(std::get<0>(objInfo));
+        targetCell->GetObject()->InitItem(std::get<1>(objInfo));
+    }
+
+    this->map->SpawnGhosts();
+    if(this->map->IsCleared()) {
+        this->gameState = GameState::CLEARED;
+    }
+    this->map->PrintAll();
+
     //////////   TODO END   ////////////////////////////////////
+}
+
+void Game::SaveMap() {
+    std::deque<std::tuple<std::string, char, int, int>> objs;
+
+    for(CellObjBase* box : this->map->objects[ObjectType::BOX]) {
+        objs.push_back(std::make_tuple("Box", box->GetIcon(), box->parent->row, box->parent->col));
+    }
+    for(CellObjBase* player : this->map->objects[ObjectType::PLAYER]) {
+        objs.push_back(std::make_tuple("Player", (player->GetIcon() == ' ') ? '@' : player->GetIcon(), player->parent->row, player->parent->col));
+    }
+
+    this->mapStack.push_back(objs);
 }

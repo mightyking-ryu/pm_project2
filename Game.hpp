@@ -11,6 +11,8 @@ class Game
 private:
     Map* map = nullptr;
 
+    std::deque<std::deque<std::tuple<std::string, char, int, int>>> mapStack;
+
     std::string levelName;
     std::string solutionName;
 
@@ -24,6 +26,8 @@ private:
 
     void Move(Direction dir);
     void Undo();
+
+    void SaveMap();
 
 public:
     GameState gameState = GameState::GAMEOVER;
