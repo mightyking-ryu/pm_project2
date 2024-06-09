@@ -167,6 +167,49 @@ bool validate(std::string expression) {
     return true;
 }
 
+// Calculate expression
+// return string
+std::string calculate(std::string expression) {
+
+    std::vector<int> num;
+    std::vector<char> op;
+
+    std::string elem = "";
+    elem.push_back(expression[0]);
+
+    for(int i = 1; i < expression.length(); i++) {
+        char current = expression[i];
+        if((current == '+') || (current == '-') || (current == '*')) {
+            num.push_back(std::stoi(elem));
+            op.push_back(current);
+            elem = "";
+        } else {
+            elem.push_back(current);
+        }
+    }
+    num.push_back(std::stoi(elem));
+
+    int result = num[0];
+
+    for(int i = 0; i < op.size(); i++) {
+        switch(op[i]) {
+            case '+':
+                result += num[i+1];
+                break;
+            case '-':
+                result -= num[i+1];
+                break;
+            case '*':
+                result *= num[i+1];
+                break;
+            default:
+                throw std::runtime_error("caculate expression error");
+        }
+    }
+
+    return std::to_string(result);
+}
+
 /// @brief Spawn every ghosts with the correct order.
 void Map::SpawnGhosts()
 {
