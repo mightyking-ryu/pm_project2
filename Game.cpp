@@ -197,6 +197,9 @@ void Game::StartSolve(std::string filename)
                 default:
                     break;
             }
+            if(this->gameState == GameState::CLEARED) {
+                break;
+            }
         }
     }
     Terminal::ClearMessage();
